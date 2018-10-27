@@ -6,10 +6,13 @@
 #include <sstream>
 #pragma comment(lib, "Ws2_32.lib")
 #pragma warning (disable : 4996)
+using namespace std;
 
 #define PORT 5223			  //ѕорт по которому слушает сервер
 #define SERVERADDR "127.0.0.1" //IP на  котором находитс€ сервер
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
+
+double function();
 
 int main(int argc, char* argv[])
 {
@@ -85,14 +88,20 @@ int main(int argc, char* argv[])
 	// long randomNumber = A + rand() % (B+1-A);
 	long randomNumber;
 
-	randomNumber = 2 + rand() % 9;
+	randomNumber = 2 + rand() % 5;
 
 	Sleep(1000 * randomNumber);
 
 	// ѕередаем строку клиента серверу
 	int nsize;
-	strcpy_s(buff, "Test Test Test");
-	buff[strlen("Test Test Test")] = 0;
+	double func = function();
+	
+	char funcValue[100];
+	sprintf(funcValue, "%f", func);
+	printf(funcValue);
+
+	strcpy_s(buff, funcValue);
+	buff[strlen(funcValue)] = 0;
 	send(my_sock, &buff[0], sizeof(buff) - 1, 0);
 
 	if ((nsize = recv(my_sock, &buff[0],
@@ -110,9 +119,18 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 0;
 	}
-	printf("Recv error %d\n", WSAGetLastError());
+	printf("Recv error \n", WSAGetLastError());
 	closesocket(my_sock);
 	WSACleanup();
 	return -1;
+}
+
+double function() {
+	int x = 0;
+	printf("Enter x : ");
+	scanf("%d",&x);
+	double fx = pow(x,2) + pow(x, 3) + pow((x + 3),4);
+	
+	return fx;
 }
 

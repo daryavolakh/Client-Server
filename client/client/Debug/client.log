@@ -1,3 +1,5 @@
 ﻿  client.cpp
-  client.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client\Debug\client.exe
-  client.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client\Debug\client.pdb (Full PDB)
+d:\университетская ересь\materials\3 курс\ос\client&server\client\client\client.cpp(122): warning C4474: "printf" : для строки формата передано слишком много аргументов
+  d:\университетская ересь\materials\3 курс\ос\client&server\client\client\client.cpp(122): note: заполнители и их параметры ожидают переменное число аргументов в количестве 0, но было предоставлено 1
+  client.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\client\Debug\client.exe
+  client.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\client\Debug\client.pdb (Full PDB)

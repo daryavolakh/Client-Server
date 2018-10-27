@@ -1,5 +1,4 @@
 ﻿#include "stdafx.h"
-//#include <mongoose.h>
 #include <winsock2.h> 
 #include <windows.h>
 #include <winbase.h>
@@ -15,7 +14,7 @@
 #define MY_PORT 5223		  // Порт, который слушает сервер
 #define TIMEOUT 1000
 
-std::ostringstream B;		  // Строковый буфер
+std::ostringstream buffer;		  // Строковый буфер
 
 std::vector<HANDLE> arrHandle;
 
@@ -30,8 +29,7 @@ struct tagINF {
 	HANDLE hID;
 };
 
-#define PRINTNUSERS if (nclients)\
-	printf("%d user on-line\n",nclients);\
+#define PRINTUSERS if (numOfClients) printf("%d user on-line\n",numOfClients);\
 else printf("No User on line\n");
 
 CRITICAL_SECTION  critSect;
@@ -42,7 +40,7 @@ DWORD WINAPI Client(LPVOID info);
 
 // Глобальная переменная – количество
 // активных пользователей 
-int nclients = 0;
+int numOfClients = 0;
 void deinitialize();
 HWND hwnd;
 int main(int argc, char* argv[])
@@ -135,7 +133,7 @@ int main(int argc, char* argv[])
 	{
 		// Увеличиваем счетчик
 		// подключившихся клиентов
-		nclients++;
+		numOfClients++;
 
 		// Пытаемся получить имя хоста
 		HOSTENT *hst;
@@ -143,7 +141,7 @@ int main(int argc, char* argv[])
 			&client_addr.sin_addr.s_addr, 4, AF_INET);
 
 
-		PRINTNUSERS
+		PRINTUSERS
 			// Вызов нового потока для обслужвания
 			// клиента. Да, для этого рекомендуется
 			// использовать _beginthreadex но, 
@@ -200,13 +198,14 @@ DWORD WINAPI Client(LPVOID info)
 		0,
 		FALSE,
 		DUPLICATE_SAME_ACCESS);
+	std::ofstream out("D:\\hello.txt", std::ios::app);
 	// ПишеМ в общий для всех 
 	// серверных потоков строковый буфер 
-	// (B) строку вида “[%d]: accept new client 
+	// (buffer) строку вида “[%d]: accept new client 
 	// %s\n”, где %d –дескриптор потока, 
 	// %s – IP-адрес клиента.  
 	EnterCriticalSection(&critSect);
-	B << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
+	buffer << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
 	printf("[%d]: accept new client %s\n", hID, inet_ntoa(my_addr.sin_addr));
 	LeaveCriticalSection(&critSect);
 
@@ -224,11 +223,13 @@ DWORD WINAPI Client(LPVOID info)
 	int bytes_recv;
 	// Цикл эхо-сервера: прием строки от клиента 
 	// и возвращение ее клиенту
+
+	
 	while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
 		&& bytes_recv != SOCKET_ERROR) {
-		//При получении сигнала INT сервер делает дамп буфера (B) 
+		//При получении сигнала INT сервер делает дамп буфера (buffer) 
 		//во временный файл в каталоге /tmp и сообщает имя файла 
-		//в stdout, после чего буфер (B) обнуляется.
+		//в stdout, после чего буфер (buffer) обнуляется.
 		int k;
 		if ((k = strcmp("INT\n", buff)) == 0) {
 			char szCurDir[MAX_PATH];
@@ -247,38 +248,43 @@ DWORD WINAPI Client(LPVOID info)
 				std::ostream out(&file);
 
 				EnterCriticalSection(&critSect);
-				out.write(B.str().c_str(), B.str().size());
+				out.write(buffer.str().c_str(), buffer.str().size());
 				file.close();
-				B.clear();
+				buffer.clear();
 				fprintf(stdout, "recive comand ""INT"", file :%s\n", szCurDir);
 				LeaveCriticalSection(&critSect);
 			}
 			catch (...) {
 				EnterCriticalSection(&critSect);
-				B << "Error of creating file\n";
+				buffer << "Error of creating file\n";
 				LeaveCriticalSection(&critSect);
 			}
 		}
 		else {
 			EnterCriticalSection(&critSect);
-			B << buff << "\n";
-			printf("recive and send string: %s\n", buff);
+			buffer << buff << "\n";
+			printf("recive and send string: %s\n", buff);  //вывод строки, которую передал клиент!!!
 			LeaveCriticalSection(&critSect);
+			//тут запись в файл
+			if (out.is_open())
+			{
+				out << buff << std::endl;
+			}
 		}
 		send(my_sock, &buff[0], bytes_recv, 0);
 	}
 
-	nclients--;
+	numOfClients--;
 	//При дисконнекте клиента сервер пишет 
-	//в буфер (B) строку вида “[%d]: 
+	//в буфер (buffer) строку вида “[%d]: 
 	//client %s disconnected\n”, 
 	//где %d – дескриптор потока,
 	//%s – IP адрес клиента, связь с которым 
 	//была прекращена. 
 	EnterCriticalSection(&critSect);
-	B << "[" << hID << "] client " << inet_ntoa(my_addr.sin_addr) << " disconnected\n";
+	buffer << "[" << hID << "] client " << inet_ntoa(my_addr.sin_addr) << " disconnected\n";
 	printf("[%d]:client %s disconnected\n", hID, inet_ntoa(my_addr.sin_addr));
-	PRINTNUSERS
+	PRINTUSERS
 		LeaveCriticalSection(&critSect);
 
 	closesocket(my_sock);
@@ -292,7 +298,7 @@ VOID APIENTRY  timer_proc(LPVOID IpArgToCompletionRoutine,
 	DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
 	EnterCriticalSection(&critSect);
-	printf("[%d]: idle\n", IpArgToCompletionRoutine);
-	B << "[" << IpArgToCompletionRoutine << "]: idle\n";
+	printf("get connection\n", IpArgToCompletionRoutine); //[%d]: idle\n
+	buffer << "[" << IpArgToCompletionRoutine << "]: idle\n";
 	LeaveCriticalSection(&critSect);
 };

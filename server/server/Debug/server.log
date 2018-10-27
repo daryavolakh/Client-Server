@@ -1,7 +1,8 @@
 ﻿  server.cpp
-d:\университетская ересь\materials\3 курс\ос\server\server\server.cpp(210): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
-d:\университетская ересь\materials\3 курс\ос\server\server\server.cpp(240): warning C4477: "sprintf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
-d:\университетская ересь\materials\3 курс\ос\server\server\server.cpp(280): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
-d:\университетская ересь\materials\3 курс\ос\server\server\server.cpp(295): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "LPVOID"
-  server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\server\Debug\server.exe
-  server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\server\Debug\server.pdb (Full PDB)
+d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(209): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
+d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(241): warning C4477: "sprintf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
+d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(286): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
+d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(301): warning C4474: "printf" : для строки формата передано слишком много аргументов
+  d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(301): note: заполнители и их параметры ожидают переменное число аргументов в количестве 0, но было предоставлено 1
+  server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\server\Debug\server.exe
+  server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\server\Debug\server.pdb (Full PDB)
