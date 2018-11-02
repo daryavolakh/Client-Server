@@ -18,6 +18,14 @@ int main(int argc, char* argv[])
 {
 	char buff[1024];		  //—троковый буфер дл€ различных нужд
 	HANDLE hStdout;		  //ќписатель потока вывода консоли
+	char granted[1024];
+	char denied[1024];
+	char request[1024];
+
+
+	strcpy_s(granted, "GRANTED");
+	strcpy_s(denied, "DENIED");
+	strcpy_s(request, "REQUEST");
 
 	//SetConsoleTitle("Echo - клиент");
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -86,11 +94,11 @@ int main(int argc, char* argv[])
 	// находитс€ в диапазоне 2..10 секунд. 
 	// целое число из интервала [A..B] -> 
 	// long randomNumber = A + rand() % (B+1-A);
-	long randomNumber;
+/*	long randomNumber;
 
 	randomNumber = 2 + rand() % 5;
 
-	Sleep(1000 * randomNumber);
+	Sleep(1000 * randomNumber);*/
 
 	// ѕередаем строку клиента серверу
 	int nsize;
@@ -98,16 +106,26 @@ int main(int argc, char* argv[])
 	
 	char funcValue[100];
 	sprintf(funcValue, "%f", func);
-	printf(funcValue);
+	
 
-	strcpy_s(buff, funcValue);
-	buff[strlen(funcValue)] = 0;
-	send(my_sock, &buff[0], sizeof(buff) - 1, 0);
+	//strcpy_s(buff, "REQUEST");
+	//buff[strlen(funcValue)] = 0;
+	send(my_sock, &request[0], sizeof(buff) - 1, 0);
 
-	if ((nsize = recv(my_sock, &buff[0],
-		sizeof(buff) - 1, 0))
-		!= SOCKET_ERROR)
+	if ((nsize = recv(my_sock, &buff[0], sizeof(buff) - 1, 0)) != SOCKET_ERROR)
 	{
+		printf(buff);
+		if (buff[0] == granted[0]) {
+			printf(buff);
+			strcpy_s(buff, funcValue);
+			printf(funcValue);
+			send(my_sock, &buff[0], sizeof(buff) - 1, 0);
+		}
+
+		else if (buff[0] == denied[0]) {
+			printf(buff);
+			send(my_sock, &request[0], sizeof(buff) - 1, 0);
+		}
 		// ѕосле приема ответа от сервера, клиент 
 		// выдерживает рандомной длины паузу 
 		// и дисконнектитс€.

@@ -43,6 +43,13 @@ DWORD WINAPI Client(LPVOID info);
 int numOfClients = 0;
 void deinitialize();
 HWND hwnd;
+bool critSectFree = true;
+char granted[1024];
+char denied[1024];
+char request[1024];
+
+
+
 int main(int argc, char* argv[])
 {
 	HANDLE hStdout;
@@ -55,6 +62,10 @@ int main(int argc, char* argv[])
 	char buff[1024];		  // Буфер для различных нужд
 
 	printf("TCP SERVER \n");
+
+	strcpy_s(granted, "GRANTED");
+	strcpy_s(denied, "DENIED");
+	strcpy_s(request, "REQUEST");
 
 	// Инициализация Библиотеки Сокетов
 	// Т.к. возвращенная функцией информация
@@ -108,8 +119,6 @@ int main(int argc, char* argv[])
 		// Ошибка!
 		printf("Error listen %d\n", WSAGetLastError());
 		closesocket(mysocket);
-
-
 	}
 
 	strcpy_s(tmp, "Ожидание подключений...\n");
@@ -186,92 +195,72 @@ DWORD WINAPI Client(LPVOID info)
 	my_sock = *(inf.soc);
 	my_addr = *(inf.caddr);
 
-
+	
 	char buff[20 * 1024];
 	buff[0] = '\0';
 
-	DuplicateHandle(
-		GetCurrentProcess(),
-		GetCurrentThread(),
-		GetCurrentProcess(),
-		&hID,
-		0,
-		FALSE,
-		DUPLICATE_SAME_ACCESS);
-	std::ofstream out("D:\\hello.txt", std::ios::app);
-	// ПишеМ в общий для всех 
-	// серверных потоков строковый буфер 
-	// (buffer) строку вида “[%d]: accept new client 
-	// %s\n”, где %d –дескриптор потока, 
-	// %s – IP-адрес клиента.  
-	EnterCriticalSection(&critSect);
-	buffer << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
-	printf("[%d]: accept new client %s\n", hID, inet_ntoa(my_addr.sin_addr));
-	LeaveCriticalSection(&critSect);
+	if (critSectFree) {
+		//	strcpy_s(buff, "GRANTED");
+		critSectFree = false;
+		send(my_sock, &granted[0], sizeof(buff) - 1, 0);
 
-	HANDLE hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-	LARGE_INTEGER li;
-	int nNanosecondsPerSecond = 1000000;
-	__int64 qwTimeFromNowInNanoseconds = nNanosecondsPerSecond;
+		DuplicateHandle(
+			GetCurrentProcess(),
+			GetCurrentThread(),
+			GetCurrentProcess(),
+			&hID,
+			0,
+			FALSE,
+			DUPLICATE_SAME_ACCESS);
+		std::ofstream out("D:\\hello.txt", std::ios::app);
+		// ПишеМ в общий для всех 
+		// серверных потоков строковый буфер 
+		// (buffer) строку вида “[%d]: accept new client 
+		// %s\n”, где %d –дескриптор потока, 
+		// %s – IP-адрес клиента.  
+		EnterCriticalSection(&critSect);
+		//buffer << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
+		//printf("[%d]: accept new client %s\n", hID, inet_ntoa(my_addr.sin_addr));
+		LeaveCriticalSection(&critSect);
 
-	qwTimeFromNowInNanoseconds = -qwTimeFromNowInNanoseconds,
-		li.LowPart = (DWORD)(qwTimeFromNowInNanoseconds & 0xFFFFFFFF),
-		li.HighPart = (LONG)(qwTimeFromNowInNanoseconds >> 32);
+		HANDLE hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
+		LARGE_INTEGER li;
+		int nNanosecondsPerSecond = 1000000;
+		__int64 qwTimeFromNowInNanoseconds = nNanosecondsPerSecond;
 
-	SetWaitableTimer(hTimer, &li, TIMEOUT, timer_proc, (LPVOID)hID, FALSE);
+		qwTimeFromNowInNanoseconds = -qwTimeFromNowInNanoseconds,
+			li.LowPart = (DWORD)(qwTimeFromNowInNanoseconds & 0xFFFFFFFF),
+			li.HighPart = (LONG)(qwTimeFromNowInNanoseconds >> 32);
 
-	int bytes_recv;
-	// Цикл эхо-сервера: прием строки от клиента 
-	// и возвращение ее клиенту
+		SetWaitableTimer(hTimer, &li, TIMEOUT, timer_proc, (LPVOID)hID, FALSE);
 
-	
-	while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
-		&& bytes_recv != SOCKET_ERROR) {
-		//При получении сигнала INT сервер делает дамп буфера (buffer) 
-		//во временный файл в каталоге /tmp и сообщает имя файла 
-		//в stdout, после чего буфер (buffer) обнуляется.
-		int k;
-		if ((k = strcmp("INT\n", buff)) == 0) {
-			char szCurDir[MAX_PATH];
-			getcwd(szCurDir, sizeof(szCurDir) / sizeof(char));
-			std::string file, fullpath = szCurDir;
-			fullpath += "\\tmp";
-			mkdir(fullpath.c_str());
-			fullpath += "\\";
-			sprintf(szCurDir, "%d.log", hID);
-			fullpath += szCurDir;
-			try {
-				std::filebuf file;
-				if (file.open(fullpath.c_str(), std::ios::out) == 0) {
-					throw (-1);
-				}
-				std::ostream out(&file);
+		int bytes_recv;
+		// Цикл эхо-сервера: прием строки от клиента 
+		// и возвращение ее клиенту
 
-				EnterCriticalSection(&critSect);
-				out.write(buffer.str().c_str(), buffer.str().size());
-				file.close();
-				buffer.clear();
-				fprintf(stdout, "recive comand ""INT"", file :%s\n", szCurDir);
-				LeaveCriticalSection(&critSect);
-			}
-			catch (...) {
-				EnterCriticalSection(&critSect);
-				buffer << "Error of creating file\n";
-				LeaveCriticalSection(&critSect);
-			}
-		}
-		else {
+
+		while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
+			&& bytes_recv != SOCKET_ERROR) {
+			//При получении сигнала INT сервер делает дамп буфера (buffer) во временный файл в каталоге /tmp и сообщает имя файла в stdout, после чего буфер (buffer) обнуляется.
+
 			EnterCriticalSection(&critSect);
 			buffer << buff << "\n";
-			printf("recive and send string: %s\n", buff);  //вывод строки, которую передал клиент!!!
-			LeaveCriticalSection(&critSect);
+			printf("recive and send string: %s\n", buff);  //вывод строки, которую передал клиент!
+			
 			//тут запись в файл
 			if (out.is_open())
 			{
 				out << buff << std::endl;
 			}
+			LeaveCriticalSection(&critSect);
+			
+
+			critSectFree = true;
 		}
-		send(my_sock, &buff[0], bytes_recv, 0);
+	}
+
+	else {
+		send(my_sock, &denied[0], sizeof(buff) - 1, 0);
 	}
 
 	numOfClients--;
@@ -289,7 +278,7 @@ DWORD WINAPI Client(LPVOID info)
 
 	closesocket(my_sock);
 	CloseHandle(hID);
-	CancelWaitableTimer(hTimer);
+	//CancelWaitableTimer(hTimer);
 	ExitThread(0);
 	return 0;
 }
