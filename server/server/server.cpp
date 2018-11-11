@@ -1,4 +1,4 @@
-п»ї#include "stdafx.h"
+
 #include <winsock2.h> 
 #include <windows.h>
 #include <winbase.h>
@@ -11,10 +11,10 @@
 #include <direct.h>
 #pragma comment(lib, "Ws2_32.lib")
 
-#define MY_PORT 5223		  // РџРѕСЂС‚, РєРѕС‚РѕСЂС‹Р№ СЃР»СѓС€Р°РµС‚ СЃРµСЂРІРµСЂ
+#define MY_PORT 5223		  // Порт, который слушает сервер
 #define TIMEOUT 1000
 
-std::ostringstream buffer;		  // РЎС‚СЂРѕРєРѕРІС‹Р№ Р±СѓС„РµСЂ
+std::ostringstream buffer;		  // Строковый буфер
 
 std::vector<HANDLE> arrHandle;
 
@@ -34,12 +34,12 @@ else printf("No User on line\n");
 
 CRITICAL_SECTION  critSect;
 
-// РџСЂРѕС‚РѕС‚РёРї С„СѓРЅРєС†РёРё, РѕР±СЃР»СѓР¶РёРІР°СЋС‰РёР№
-// РїРѕРґРєР»СЋС‡РёРІС€РёС…СЃСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+// Прототип функции, обслуживающий
+// подключившихся пользователей
 DWORD WINAPI Client(LPVOID info);
 
-// Р“Р»РѕР±Р°Р»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ вЂ“ РєРѕР»РёС‡РµСЃС‚РІРѕ
-// Р°РєС‚РёРІРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ 
+// Глобальная переменная – количество
+// активных пользователей 
 int numOfClients = 0;
 void deinitialize();
 HWND hwnd;
@@ -54,12 +54,11 @@ int main(int argc, char* argv[])
 {
 	HANDLE hStdout;
 
-	//SetConsoleTitle("Echo - СЃРµСЂРІРµСЂ");
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout, FOREGROUND_GREEN);
 
-	char tmp[1000];			  // Р‘СѓС„РµСЂ РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… РЅСѓР¶Рґ
-	char buff[1024];		  // Р‘СѓС„РµСЂ РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… РЅСѓР¶Рґ
+	char tmp[1000];			  // Буфер для различных нужд
+	char buff[1024];		  // Буфер для различных нужд
 
 	printf("TCP SERVER \n");
 
@@ -67,108 +66,97 @@ int main(int argc, char* argv[])
 	strcpy_s(denied, "DENIED");
 	strcpy_s(request, "REQUEST");
 
-	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р‘РёР±Р»РёРѕС‚РµРєРё РЎРѕРєРµС‚РѕРІ
-	// Рў.Рє. РІРѕР·РІСЂР°С‰РµРЅРЅР°СЏ С„СѓРЅРєС†РёРµР№ РёРЅС„РѕСЂРјР°С†РёСЏ
-	// РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РµР№ РїРµСЂРµРґР°РµС‚СЃСЏ СѓРєР°Р·Р°С‚РµР»СЊ 
-	// РЅР° СЂР°Р±РѕС‡РёР№ Р±СѓС„РµСЂ, РїСЂРµРѕР±СЂР°Р·СѓРµРјС‹Р№
-	// Рє СѓРєР°Р·Р°С‚РµР»СЋ  РЅР° СЃС‚СЂСѓРєС‚СѓСЂСѓ WSADATA.
+	// Инициализация Библиотеки Сокетов
+	// Т.к. возвращенная функцией информация
+	// не используется ей передается указатель 
+	// на рабочий буфер, преобразуемый
+	// к указателю  на структуру WSADATA.
 	if (WSAStartup(0x0202, (WSADATA *)&buff[0]))
 	{
-		// РћС€РёР±РєР°!
+		// Ошибка!
 		printf("Error WSAStartup %d\n", WSAGetLastError());
 		return -1;
 	}
-	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєСЂРёС‚РёС‡РµСЃРєРѕР№ СЃРµРєС†РёРё
 	InitializeCriticalSection(&critSect);
-	// РЎРѕР·РґР°РЅРёРµ СЃРѕРєРµС‚Р°
+	// Создание сокета
 	SOCKET mysocket;
-	// AF_INET     - СЃРѕРєРµС‚ РРЅС‚РµСЂРЅРµС‚Р°
-	// SOCK_STREAM  - РїРѕС‚РѕРєРѕРІС‹Р№ СЃРѕРєРµС‚ 
-	//(СЃ СѓСЃС‚Р°РЅРѕРІРєРѕР№ СЃРѕРµРґРёРЅРµРЅРёСЏ)
-	// 0 - РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІС‹Р±РёСЂР°РµС‚СЃСЏ TCP РїСЂРѕС‚РѕРєРѕР»
+	// AF_INET     - сокет Интернета
+	// SOCK_STREAM  - потоковый сокет 
+	//(с установкой соединения)
+	// 0 - по умолчанию выбирается TCP протокол
 	if ((mysocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
-		// РћС€РёР±РєР°!
+		// Ошибка!
 		printf("Error socket %d\n", WSAGetLastError());
 	}
 
-	// РЎРІСЏР·С‹РІР°РЅРёРµ СЃРѕРєРµС‚Р° СЃ Р»РѕРєР°Р»СЊРЅС‹Рј Р°РґСЂРµСЃРѕРј
+	// Связывание сокета с локальным адресом
 	sockaddr_in local_addr;
 	local_addr.sin_family = AF_INET;
-	// РќРµ Р·Р°Р±С‹РІР°РµРј Рѕ СЃРµС‚РµРІРѕРј РїРѕСЂСЏРґРєРµ!!!
+	// Не забываем о сетевом порядке!!!
 	local_addr.sin_port = htons(MY_PORT);
-	// РЎРµСЂРІРµСЂ РїСЂРёРЅРёРјР°РµС‚ РїРѕРґРєР»СЋС‡РµРЅРёСЏ
-	// РЅР° РІСЃРµ IP-Р°РґСЂРµСЃР°
+	// Сервер принимает подключения
+	// на все IP-адреса
 	local_addr.sin_addr.s_addr = 0;
 
-	// Р’С‹Р·С‹РІР°РµРј bind РґР»СЏ СЃРІСЏР·С‹РІР°РЅРёСЏ
+	// Вызываем bind для связывания
 	if (bind(mysocket, (sockaddr *)&local_addr,
 		sizeof(local_addr)))
 	{
-		// РћС€РёР±РєР°!
+		// Ошибка!
 		printf("Error bind %d\n", WSAGetLastError());
-		// Р·Р°РєСЂС‹РІР°РµРј СЃРѕРєРµС‚!
+		// закрываем сокет!
 		closesocket(mysocket);
 
 	}
 
-	// РћР¶РёРґР°РЅРёРµ РїРѕРґРєР»СЋС‡РµРЅРёР№
-	// СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё вЂ“ 0x100
+	// Ожидание подключений
+	// размер очереди – 0x100
 	if (listen(mysocket, 0x100))
 	{
-		// РћС€РёР±РєР°!
+		// Ошибка!
 		printf("Error listen %d\n", WSAGetLastError());
 		closesocket(mysocket);
 	}
 
-	strcpy_s(tmp, "РћР¶РёРґР°РЅРёРµ РїРѕРґРєР»СЋС‡РµРЅРёР№...\n");
+	strcpy_s(tmp, "Ожидание подключений...\n");
 	AnsiToOem(tmp, tmp);
 	puts(tmp);
 
-	//РР·РІР»РµРєР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ РёР· РѕС‡РµСЂРµРґРё
-	// СЃРѕРєРµС‚ РґР»СЏ РєР»РёРµРЅС‚Р°
+	//Извлекаем сообщение из очереди
+	// сокет для клиента
 
 	SOCKET client_socket;
-	// Р°РґСЂРµСЃ РєР»РёРµРЅС‚Р°
-	// (Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ СЃРёСЃС‚РµРјРѕР№)
+	// адрес клиента
+	// (заполняется системой)
 	sockaddr_in client_addr;
 
-	// Р¤СѓРЅРєС†РёРё accept РЅРµРѕР±С…РѕРґРёРјРѕ РїРµСЂРµРґР°С‚СЊ СЂР°Р·РјРµСЂ
-	// СЃС‚СЂСѓРєС‚СѓСЂС‹
+	// Функции accept необходимо передать размер
+	// структуры
 	int client_addr_size = sizeof(client_addr);
 
 	while ((client_socket = accept(mysocket, (sockaddr *)
 		&client_addr, &client_addr_size)))
 	{
-		// РЈРІРµР»РёС‡РёРІР°РµРј СЃС‡РµС‚С‡РёРє
-		// РїРѕРґРєР»СЋС‡РёРІС€РёС…СЃСЏ РєР»РёРµРЅС‚РѕРІ
+		// Увеличиваем счетчик
+		// подключившихся клиентов
 		numOfClients++;
-
-		// РџС‹С‚Р°РµРјСЃСЏ РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ С…РѕСЃС‚Р°
+		
+		// Пытаемся получить имя хоста
 		HOSTENT *hst;
 		hst = gethostbyaddr((char *)
 			&client_addr.sin_addr.s_addr, 4, AF_INET);
 
-
 		PRINTUSERS
-			// Р’С‹Р·РѕРІ РЅРѕРІРѕРіРѕ РїРѕС‚РѕРєР° РґР»СЏ РѕР±СЃР»СѓР¶РІР°РЅРёСЏ
-			// РєР»РёРµРЅС‚Р°. Р”Р°, РґР»СЏ СЌС‚РѕРіРѕ СЂРµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ
-			// РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ _beginthreadex РЅРѕ, 
-			// РїРѕСЃРєРѕР»СЊРєСѓ РЅРёРєР°РєРёС… РІС‹Р·РѕРІ С„СѓРЅРєС†РёР№ 
-			// СЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ РЎРё Р±РёР±Р»РёРѕС‚РµРєРё РїРѕС‚РѕРє РЅРµ
-			// РґРµР»Р°РµС‚, РјРѕР¶РЅРѕ РѕР±РѕР№С‚РёСЃСЊ Рё CreateThread
 			DWORD thID;
 		tagINF info;
 
 		info.caddr = &client_addr;
 		info.soc = &client_socket;
-		// РџСЂРё РєР°Р¶РґРѕРј РЅРѕРІРѕРј РєРѕРЅРЅРµРєС‚Рµ 
-		// СЃРѕР·РґР°РµС‚СЃСЏ РЅРѕРІС‹Р№ СЃРµСЂРІРµСЂРЅС‹Р№ РїРѕС‚РѕРє, 
-
-		HANDLE hID = CreateThread(NULL, NULL, Client,
-			&info, NULL, &thID);
+ 
+		HANDLE hID = CreateThread(NULL, NULL, Client, &info, NULL, &thID);
 		arrHandle.push_back(hID);
-
+			
 	}
 
 	deinitialize();
@@ -177,7 +165,7 @@ int main(int argc, char* argv[])
 }
 
 void deinitialize() {
-	// Р”РµРёРЅРёС†РёР»РёР·Р°С†РёСЏ Р±РёР±Р»РёРѕС‚РµРєРё Winsock
+	// Деиницилизация библиотеки Winsock
 	WSACleanup();
 	std::vector<HANDLE>::iterator it;
 	for (it = arrHandle.begin(); it != arrHandle.end(); it++)
@@ -195,92 +183,89 @@ DWORD WINAPI Client(LPVOID info)
 	my_sock = *(inf.soc);
 	my_addr = *(inf.caddr);
 
-	
+
 	char buff[20 * 1024];
 	buff[0] = '\0';
 
-	if (critSectFree) {
-		//	strcpy_s(buff, "GRANTED");
-		critSectFree = false;
-		send(my_sock, &granted[0], sizeof(buff) - 1, 0);
+	std::ofstream out("file.txt", std::ios::app);
 
-		DuplicateHandle(
-			GetCurrentProcess(),
-			GetCurrentThread(),
-			GetCurrentProcess(),
-			&hID,
-			0,
-			FALSE,
-			DUPLICATE_SAME_ACCESS);
-		std::ofstream out("D:\\hello.txt", std::ios::app);
-		// РџРёС€РµРњ РІ РѕР±С‰РёР№ РґР»СЏ РІСЃРµС… 
-		// СЃРµСЂРІРµСЂРЅС‹С… РїРѕС‚РѕРєРѕРІ СЃС‚СЂРѕРєРѕРІС‹Р№ Р±СѓС„РµСЂ 
-		// (buffer) СЃС‚СЂРѕРєСѓ РІРёРґР° вЂњ[%d]: accept new client 
-		// %s\nвЂќ, РіРґРµ %d вЂ“РґРµСЃРєСЂРёРїС‚РѕСЂ РїРѕС‚РѕРєР°, 
-		// %s вЂ“ IP-Р°РґСЂРµСЃ РєР»РёРµРЅС‚Р°.  
-		EnterCriticalSection(&critSect);
-		//buffer << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
-		//printf("[%d]: accept new client %s\n", hID, inet_ntoa(my_addr.sin_addr));
-		LeaveCriticalSection(&critSect);
+	int bytes_recv;
 
-		HANDLE hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-		LARGE_INTEGER li;
-		int nNanosecondsPerSecond = 1000000;
-		__int64 qwTimeFromNowInNanoseconds = nNanosecondsPerSecond;
-
-		qwTimeFromNowInNanoseconds = -qwTimeFromNowInNanoseconds,
-			li.LowPart = (DWORD)(qwTimeFromNowInNanoseconds & 0xFFFFFFFF),
-			li.HighPart = (LONG)(qwTimeFromNowInNanoseconds >> 32);
-
-		SetWaitableTimer(hTimer, &li, TIMEOUT, timer_proc, (LPVOID)hID, FALSE);
-
-		int bytes_recv;
-		// Р¦РёРєР» СЌС…Рѕ-СЃРµСЂРІРµСЂР°: РїСЂРёРµРј СЃС‚СЂРѕРєРё РѕС‚ РєР»РёРµРЅС‚Р° 
-		// Рё РІРѕР·РІСЂР°С‰РµРЅРёРµ РµРµ РєР»РёРµРЅС‚Сѓ
-
-
-		while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
-			&& bytes_recv != SOCKET_ERROR) {
-			//РџСЂРё РїРѕР»СѓС‡РµРЅРёРё СЃРёРіРЅР°Р»Р° INT СЃРµСЂРІРµСЂ РґРµР»Р°РµС‚ РґР°РјРї Р±СѓС„РµСЂР° (buffer) РІРѕ РІСЂРµРјРµРЅРЅС‹Р№ С„Р°Р№Р» РІ РєР°С‚Р°Р»РѕРіРµ /tmp Рё СЃРѕРѕР±С‰Р°РµС‚ РёРјСЏ С„Р°Р№Р»Р° РІ stdout, РїРѕСЃР»Рµ С‡РµРіРѕ Р±СѓС„РµСЂ (buffer) РѕР±РЅСѓР»СЏРµС‚СЃСЏ.
-
+	while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
+		&& bytes_recv != SOCKET_ERROR) {
+		if (critSectFree) {
+			critSectFree = false;
 			EnterCriticalSection(&critSect);
-			buffer << buff << "\n";
-			printf("recive and send string: %s\n", buff);  //РІС‹РІРѕРґ СЃС‚СЂРѕРєРё, РєРѕС‚РѕСЂСѓСЋ РїРµСЂРµРґР°Р» РєР»РёРµРЅС‚!
-			
-			//С‚СѓС‚ Р·Р°РїРёСЃСЊ РІ С„Р°Р№Р»
-			if (out.is_open())
-			{
-				out << buff << std::endl;
+
+			send(my_sock, &granted[0], sizeof(buff) - 1, 0);
+
+			DuplicateHandle(
+				GetCurrentProcess(),
+				GetCurrentThread(),
+				GetCurrentProcess(),
+				&hID,
+				0,
+				FALSE,
+				DUPLICATE_SAME_ACCESS);
+			// ПишеМ в общий для всех 
+			// серверных потоков строковый буфер 
+			// (buffer) строку вида “[%d]: accept new client 
+			// %s\n”, где %d –дескриптор потока, 
+			// %s – IP-адрес клиента.  
+			//buffer << "[" << hID << "]" << ":accept new client " << inet_ntoa(my_addr.sin_addr) << "\n";
+			//printf("[%d]: accept new client %s\n", hID, inet_ntoa(my_addr.sin_addr));
+
+			HANDLE hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
+			LARGE_INTEGER li;
+			int nNanosecondsPerSecond = 1000000;
+			__int64 qwTimeFromNowInNanoseconds = nNanosecondsPerSecond;
+
+			qwTimeFromNowInNanoseconds = -qwTimeFromNowInNanoseconds,
+				li.LowPart = (DWORD)(qwTimeFromNowInNanoseconds & 0xFFFFFFFF),
+				li.HighPart = (LONG)(qwTimeFromNowInNanoseconds >> 32);
+
+			SetWaitableTimer(hTimer, &li, TIMEOUT, timer_proc, (LPVOID)hID, FALSE);
+
+			int bytes_recv;
+			//прием строки от клиента 
+			while ((bytes_recv = recv(my_sock, &buff[0], sizeof(buff), 0))
+				&& bytes_recv != SOCKET_ERROR) {
+				buffer << buff << "\n";
+				printf("recive string: %s\n", buff); 
+															   
+				if (out.is_open())
+				{
+					out << buff << std::endl;
+				}
+
+				LeaveCriticalSection(&critSect);
+				critSectFree = true;
 			}
-			LeaveCriticalSection(&critSect);
-			
-
-			critSectFree = true;
 		}
+
+		else {
+			send(my_sock, &denied[0], sizeof(buff) - 1, 0);
+		}
+
+		numOfClients--;
+		//При дисконнекте клиента сервер пишет 
+		//в буфер (buffer) строку вида “[%d]: 
+		//client %s disconnected\n”, 
+		//где %d – дескриптор потока,
+		//%s – IP адрес клиента, связь с которым 
+		//была прекращена. 
+		EnterCriticalSection(&critSect);
+		buffer << "[" << hID << "] client " << inet_ntoa(my_addr.sin_addr) << " disconnected\n";
+		printf("[%d]:client %s disconnected\n", hID, inet_ntoa(my_addr.sin_addr));
+		PRINTUSERS
+			LeaveCriticalSection(&critSect);
+
+		closesocket(my_sock);
+		CloseHandle(hID);
+		//CancelWaitableTimer(hTimer);
+		ExitThread(0);
+		return 0;
 	}
-
-	else {
-		send(my_sock, &denied[0], sizeof(buff) - 1, 0);
-	}
-
-	numOfClients--;
-	//РџСЂРё РґРёСЃРєРѕРЅРЅРµРєС‚Рµ РєР»РёРµРЅС‚Р° СЃРµСЂРІРµСЂ РїРёС€РµС‚ 
-	//РІ Р±СѓС„РµСЂ (buffer) СЃС‚СЂРѕРєСѓ РІРёРґР° вЂњ[%d]: 
-	//client %s disconnected\nвЂќ, 
-	//РіРґРµ %d вЂ“ РґРµСЃРєСЂРёРїС‚РѕСЂ РїРѕС‚РѕРєР°,
-	//%s вЂ“ IP Р°РґСЂРµСЃ РєР»РёРµРЅС‚Р°, СЃРІСЏР·СЊ СЃ РєРѕС‚РѕСЂС‹Рј 
-	//Р±С‹Р»Р° РїСЂРµРєСЂР°С‰РµРЅР°. 
-	EnterCriticalSection(&critSect);
-	buffer << "[" << hID << "] client " << inet_ntoa(my_addr.sin_addr) << " disconnected\n";
-	printf("[%d]:client %s disconnected\n", hID, inet_ntoa(my_addr.sin_addr));
-	PRINTUSERS
-		LeaveCriticalSection(&critSect);
-
-	closesocket(my_sock);
-	CloseHandle(hID);
-	//CancelWaitableTimer(hTimer);
-	ExitThread(0);
-	return 0;
 }
 
 VOID APIENTRY  timer_proc(LPVOID IpArgToCompletionRoutine,
@@ -290,4 +275,4 @@ VOID APIENTRY  timer_proc(LPVOID IpArgToCompletionRoutine,
 	printf("get connection\n", IpArgToCompletionRoutine); //[%d]: idle\n
 	buffer << "[" << IpArgToCompletionRoutine << "]: idle\n";
 	LeaveCriticalSection(&critSect);
-};
+}
