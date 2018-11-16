@@ -16,24 +16,20 @@ double function();
 
 int main(int argc, char* argv[])
 {
-	char buff[1024];		  
-	HANDLE hStdout;		  
-	char granted[1024];
-	char denied[1024];
-	char request[1024];
+	char buff[1024];
+	HANDLE hStdout;
 
-
-	strcpy_s(granted, "GRANTED");
-	strcpy_s(denied, "DENIED");
-	strcpy_s(request, "REQUEST");
+	const char* granted = "GRANTED";
+	const char* request = "REQUEST";
+	const char* answer = "ANSWER";
 
 	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hStdout, FOREGROUND_GREEN);
+	SetConsoleTextAttribute(hStdout, FOREGROUND_INTENSITY);
 
 	printf("TCP CLIENT\n");
 
 
-	if (WSAStartup(0x202, (WSADATA *)&buff[0]))
+	if (WSAStartup(0x202, (WSADATA *)buff))
 	{
 		printf("WSAStart error %d\n", WSAGetLastError());
 		return -1;
@@ -77,43 +73,39 @@ int main(int argc, char* argv[])
 	}
 
 	int nsize;
-	double func = function();
 
-	char funcValue[100];
-	sprintf(funcValue, "%f", func);
+	send(my_sock, request, strlen(request), 0);
 
-	send(my_sock, &request[0], sizeof(buff) - 1, 0);
-
-	while ((nsize = recv(my_sock, &buff[0], sizeof(buff) - 1, 0)) != SOCKET_ERROR)
+	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR)
 	{
-		printf(buff);
-		if (buff[0] == granted[0]) {
+		buff[nsize] = 0;
+		if (strcmp(buff, granted) == 0) {
+			printf("%s\n", buff);
+			double func = function();
+			
+			char funcValue[100];
+			sprintf(funcValue, "%f", func);
+
 			strcpy_s(buff, funcValue);
 			printf(funcValue);
-			send(my_sock, &buff[0], sizeof(buff) - 1, 0);
+			send(my_sock, buff, strlen(buff), 0);
 		}
 
-		else if (buff[0] == denied[0]) {
-			printf("\n", buff);
-			send(my_sock, &request[0], sizeof(buff) - 1, 0);
+		if (strcmp(buff, answer) == 0) {
+			closesocket(my_sock);
+			WSACleanup();
+			return 0;
 		}
-		
-		Sleep(1000 * 5);
-		printf("\nExit...");
-		closesocket(my_sock);
-		WSACleanup();
-		return 0;
 	}
-	printf("Recv error \n", WSAGetLastError());
+
+	printf("Recv error %d\n", WSAGetLastError());
 	closesocket(my_sock);
 	WSACleanup();
-	return -1;
+	return 0;
 }
 
 double function() {
-	int x = 0;
-	printf("Enter x : ");
-	scanf("%d", &x);
+	int x = rand() % 100 + 1;
 	double fx = pow(x, 2) + pow(x, 3) + pow((x + 3), 4);
 
 	return fx;

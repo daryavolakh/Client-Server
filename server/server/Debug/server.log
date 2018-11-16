@@ -1,7 +1,3 @@
 ﻿  server.cpp
-d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(259): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "HANDLE"
-d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(275): warning C4474: "printf" : для строки формата передано слишком много аргументов
-  d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(275): note: заполнители и их параметры ожидают переменное число аргументов в количестве 0, но было предоставлено 1
-d:\университетская ересь\materials\3 курс\ос\client&server\server\server\server.cpp(269): warning C4715: Client: значение возвращается не при всех путях выполнения
   server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\server\Debug\server.exe
   server.vcxproj -> D:\Университетская ересь\Materials\3 курс\ОС\client&server\server\Debug\server.pdb (Full PDB)
