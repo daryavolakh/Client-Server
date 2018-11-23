@@ -1,0 +1,10 @@
+Saturday, November 24, 2018 01:09:04 Initialization of winSock library
+Saturday, November 24, 2018 01:09:04 Create socket
+Saturday, November 24, 2018 01:09:04 Valid address
+Saturday, November 24, 2018 01:09:04 Connect
+Saturday, November 24, 2018 01:09:04 Send request to server
+Saturday, November 24, 2018 01:09:04 Resieve granter from server
+Saturday, November 24, 2018 01:09:06 Send function value to server
+Saturday, November 24, 2018 01:09:06 WAIT
+Saturday, November 24, 2018 01:09:11 Resieve answer from server
+Saturday, November 24, 2018 01:09:11 Close socket

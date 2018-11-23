@@ -4,19 +4,22 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
+#include <iostream>
+#include <ctime>
 #pragma comment(lib, "Ws2_32.lib")
 #pragma warning (disable : 4996)
-using namespace std;
+using namespace std;	  
 
-#define PORT 5223			  
-#define SERVERADDR "127.0.0.1" 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-double function();
+double function(int x);
+void logToFile(std::ofstream &logFile, char* message);
+std::ofstream logFile("logClient.txt", std::ios::out);
 
-int main(int argc, char* argv[])
+int __cdecl main(int argc, char** argv)
 {
 	char buff[1024];
+
 	HANDLE hStdout;
 
 	const char* granted = "GRANTED";
@@ -28,18 +31,28 @@ int main(int argc, char* argv[])
 
 	printf("TCP CLIENT\n");
 
+	int PORT = atoi(argv[1]);
+	char* serverAddr = argv[2];
 
 	if (WSAStartup(0x202, (WSADATA *)buff))
 	{
 		printf("WSAStart error %d\n", WSAGetLastError());
+		logToFile(logFile, "ERROR WSAStartup");
 		return -1;
+	}
+
+	else {
+		logToFile(logFile, "Initialization of winSock library");
 	}
 
 	SOCKET my_sock;
 	my_sock = socket(AF_INET, SOCK_STREAM, 0);
+	logToFile(logFile, "Create socket");
+
 	if (my_sock < 0)
 	{
 		printf("Socket() error %d\n", WSAGetLastError());
+		logToFile(logFile, "ERROR socket");
 		return -1;
 	}
 
@@ -48,18 +61,21 @@ int main(int argc, char* argv[])
 	dest_addr.sin_port = htons(PORT);
 	HOSTENT *hst = NULL;
 
-
-	if (inet_addr(SERVERADDR) != INADDR_NONE)
-		dest_addr.sin_addr.s_addr = inet_addr(SERVERADDR);
+	if (inet_addr(serverAddr) != INADDR_NONE) {
+		dest_addr.sin_addr.s_addr = inet_addr(serverAddr);
+		logToFile(logFile, "Valid address");
+	}
 	else
-
-		if (hst = gethostbyname(SERVERADDR))
-			((unsigned long *)&dest_addr.sin_addr)[0] =
-			((unsigned long **)hst->h_addr_list)[0][0];
+		if (hst = gethostbyname(serverAddr)) {
+			((unsigned long *)&dest_addr.sin_addr)[0] = ((unsigned long **)hst->h_addr_list)[0][0];
+			logToFile(logFile, "Name of host -> null");
+		}
 		else
 		{
-			printf("Invalid address %s\n", SERVERADDR);
+			printf("Invalid address %s\n", serverAddr);
+			logToFile(logFile, "Invalid address");
 			closesocket(my_sock);
+			logToFile(logFile, "Close socket");
 			WSACleanup();
 			return -1;
 		}
@@ -69,44 +85,67 @@ int main(int argc, char* argv[])
 		sizeof(dest_addr)))
 	{
 		printf("Connect error %d\n", WSAGetLastError());
+		logToFile(logFile, "Connect ERROR");
 		return -1;
+	}
+
+	else {
+		logToFile(logFile, "Connect");
 	}
 
 	int nsize;
 
 	send(my_sock, request, strlen(request), 0);
+	logToFile(logFile, "Send request to server");
 
 	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR)
 	{
 		buff[nsize] = 0;
 		if (strcmp(buff, granted) == 0) {
+			logToFile(logFile, "Resieve granted from server");
 			printf("%s\n", buff);
-			double func = function();
+			int x;
+			cout << "Input X: ";
+			cin >> x;
+			double func = function(x);
 			
 			char funcValue[100];
-			sprintf(funcValue, "%f", func);
+			sprintf(funcValue, "%f\n", func);
 
 			strcpy_s(buff, funcValue);
 			printf(funcValue);
 			send(my_sock, buff, strlen(buff), 0);
+			logToFile(logFile, "Send function value to server");
 		}
 
 		if (strcmp(buff, answer) == 0) {
+			logToFile(logFile, "Resieve answer from server");
 			closesocket(my_sock);
+			logToFile(logFile, "Close socket");
 			WSACleanup();
 			return 0;
 		}
+
 	}
 
 	printf("Recv error %d\n", WSAGetLastError());
+	logToFile(logFile, "Recv ERROR");
 	closesocket(my_sock);
 	WSACleanup();
 	return 0;
 }
 
-double function() {
-	int x = rand() % 100 + 1;
+double function(int x) {
 	double fx = pow(x, 2) + pow(x, 3) + pow((x + 3), 4);
 
 	return fx;
+}
+
+void logToFile(std::ofstream &logFile, char* message) {
+	char bufferForTime[80];
+	time_t seconds = time(NULL);
+	tm* timeinfo = localtime(&seconds);
+	char* format = "%A, %B %d, %Y %H:%M:%S";
+	strftime(bufferForTime, 80, format, timeinfo);
+	logFile << bufferForTime << " " << message << std::endl;
 }

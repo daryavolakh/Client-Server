@@ -1,0 +1,82 @@
+Saturday, November 24, 2018 01:14:47 Initialization of winSock library
+Saturday, November 24, 2018 01:14:47 Create socket
+Saturday, November 24, 2018 01:14:47 Bind socket with IP-address and port
+Saturday, November 24, 2018 01:14:47 Listen
+Saturday, November 24, 2018 01:15:01 Accept client
+Saturday, November 24, 2018 01:15:01 Create thread for client
+Saturday, November 24, 2018 01:15:01 Recieve message from client
+Saturday, November 24, 2018 01:15:01 Enter critical section
+Saturday, November 24, 2018 01:15:01 Recieve request from 288
+Saturday, November 24, 2018 01:15:01 Leave critical section
+Saturday, November 24, 2018 01:15:04 Recieve message from client
+Saturday, November 24, 2018 01:15:04 Enter critical section
+Saturday, November 24, 2018 01:15:04 Recieve function value from 288
+Saturday, November 24, 2018 01:15:04 Write to file
+Saturday, November 24, 2018 01:15:09 Send answer to 288
+Saturday, November 24, 2018 01:15:09 Leave critical section
+Saturday, November 24, 2018 01:15:09 Close my_sock
+Saturday, November 24, 2018 01:15:35 Accept client
+Saturday, November 24, 2018 01:15:35 Create thread for client
+Saturday, November 24, 2018 01:15:35 Recieve message from client
+Saturday, November 24, 2018 01:15:35 Enter critical section
+Saturday, November 24, 2018 01:15:35 Recieve request from 488
+Saturday, November 24, 2018 01:15:35 Leave critical section
+Saturday, November 24, 2018 01:15:36 Recieve message from client
+Saturday, November 24, 2018 01:15:36 Enter critical section
+Saturday, November 24, 2018 01:15:36 Recieve function value from 488
+Saturday, November 24, 2018 01:15:36 Write to file
+Saturday, November 24, 2018 01:15:38 Accept client
+Saturday, November 24, 2018 01:15:38 Create thread for client
+Saturday, November 24, 2018 01:15:38 Recieve message from client
+Saturday, November 24, 2018 01:15:41 Send answer to 488
+Saturday, November 24, 2018 01:15:41 Leave critical section
+Saturday, November 24, 2018 01:15:41 Enter critical section
+Saturday, November 24, 2018 01:15:41 Close my_sock
+Saturday, November 24, 2018 01:15:41 Recieve request from 336
+Saturday, November 24, 2018 01:15:41 Leave critical section
+Saturday, November 24, 2018 01:15:41 Recieve message from client
+Saturday, November 24, 2018 01:15:41 Enter critical section
+Saturday, November 24, 2018 01:15:41 Recieve function value from 336
+Saturday, November 24, 2018 01:15:41 Write to file
+Saturday, November 24, 2018 01:15:46 Send answer to 336
+Saturday, November 24, 2018 01:15:46 Leave critical section
+Saturday, November 24, 2018 01:15:46 Close my_sock
+Saturday, November 24, 2018 01:15:46 Accept client
+Saturday, November 24, 2018 01:15:46 Create thread for client
+Saturday, November 24, 2018 01:15:46 Recieve message from client
+Saturday, November 24, 2018 01:15:46 Enter critical section
+Saturday, November 24, 2018 01:15:46 Recieve request from 500
+Saturday, November 24, 2018 01:15:46 Leave critical section
+Saturday, November 24, 2018 01:15:48 Recieve message from client
+Saturday, November 24, 2018 01:15:48 Enter critical section
+Saturday, November 24, 2018 01:15:48 Recieve function value from 500
+Saturday, November 24, 2018 01:15:48 Write to file
+Saturday, November 24, 2018 01:15:51 Accept client
+Saturday, November 24, 2018 01:15:51 Create thread for client
+Saturday, November 24, 2018 01:15:51 Recieve message from client
+Saturday, November 24, 2018 01:15:53 Send answer to 500
+Saturday, November 24, 2018 01:15:53 Leave critical section
+Saturday, November 24, 2018 01:15:53 Enter critical section
+Saturday, November 24, 2018 01:15:53 Close my_sock
+Saturday, November 24, 2018 01:15:53 Recieve request from 488
+Saturday, November 24, 2018 01:15:53 Leave critical section
+Saturday, November 24, 2018 01:15:56 Recieve message from client
+Saturday, November 24, 2018 01:15:56 Enter critical section
+Saturday, November 24, 2018 01:15:56 Recieve function value from 488
+Saturday, November 24, 2018 01:15:56 Write to file
+Saturday, November 24, 2018 01:15:59 Accept client
+Saturday, November 24, 2018 01:15:59 Create thread for client
+Saturday, November 24, 2018 01:15:59 Recieve message from client
+Saturday, November 24, 2018 01:16:01 Send answer to 488
+Saturday, November 24, 2018 01:16:01 Leave critical section
+Saturday, November 24, 2018 01:16:01 Enter critical section
+Saturday, November 24, 2018 01:16:01 Recieve request from 520
+Saturday, November 24, 2018 01:16:01 Leave critical section
+Saturday, November 24, 2018 01:16:01 Close my_sock
+Saturday, November 24, 2018 01:16:05 Recieve message from client
+Saturday, November 24, 2018 01:16:05 Enter critical section
+Saturday, November 24, 2018 01:16:05 Recieve function value from 520
+Saturday, November 24, 2018 01:16:05 Write to file
+Saturday, November 24, 2018 01:16:10 Send answer to 520
+Saturday, November 24, 2018 01:16:10 Leave critical section
+Saturday, November 24, 2018 01:16:10 Close my_sock

@@ -39,12 +39,13 @@ unsigned __stdcall Client(LPVOID info);
 // активных пользователей 
 int numOfClients = 0;
 void deinitialize();
+void logToFile(std::ofstream &logFile, char* message, int sock);
 HWND hwnd;
 
 const char* granted = "GRANTED";
 const char* request = "REQUEST";
 const char* answer = "ANSWER";
-
+std::ofstream logFile("logServer.txt", std::ios::out);
 
 int main(int argc, char* argv[])
 {
@@ -57,6 +58,7 @@ int main(int argc, char* argv[])
 	char buff[1024];		  // Буфер для различных нужд
 
 	printf("TCP SERVER \n");
+	
 
 	// Инициализация Библиотеки Сокетов
 	// Т.к. возвращенная функцией информация
@@ -66,12 +68,20 @@ int main(int argc, char* argv[])
 	if (WSAStartup(0x0202, (WSADATA *)&buff[0]))
 	{
 		// Ошибка!
-		printf("Error WSAStartup %d\n", WSAGetLastError());
+		printf("ERROR WSAStartup %d\n", WSAGetLastError());
+		
+		logToFile(logFile, "ERROR WSAStartup", 0);
+		
 		return -1;
 	}
+	else {
+		logToFile(logFile, "Initialization of winSock library", 0);
+	}
+
 	InitializeCriticalSection(&critSect);
 	// Создание сокета
 	SOCKET mysocket;
+	
 	// AF_INET     - сокет Интернета
 	// SOCK_STREAM  - потоковый сокет 
 	//(с установкой соединения)
@@ -79,13 +89,17 @@ int main(int argc, char* argv[])
 	if ((mysocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		// Ошибка!
-		printf("Error socket %d\n", WSAGetLastError());
+		printf("ERROR socket %d\n", WSAGetLastError());
+		logToFile(logFile, "ERROR socket", 0);
+	}
+
+	else {
+		logToFile(logFile, "Create socket", 0);
 	}
 
 	// Связывание сокета с локальным адресом
 	sockaddr_in local_addr;
 	local_addr.sin_family = AF_INET;
-	// Не забываем о сетевом порядке!!!
 	local_addr.sin_port = htons(MY_PORT);
 	// Сервер принимает подключения
 	// на все IP-адреса
@@ -95,26 +109,31 @@ int main(int argc, char* argv[])
 	if (bind(mysocket, (sockaddr *)&local_addr,
 		sizeof(local_addr)))
 	{
-		// Ошибка!
-		printf("Error bind %d\n", WSAGetLastError());
-		// закрываем сокет!
+		printf("ERROR bind %d\n", WSAGetLastError());
+		logToFile(logFile, "ERROR bind socket with IP-address and port", 0);
 		closesocket(mysocket);
 
+	}
+	else {
+		logToFile(logFile, "Bind socket with IP-address and port", 0);
 	}
 
 	// Ожидание подключений
 	// размер очереди – 0x100
 	if (listen(mysocket, 0x100))
 	{
-		// Ошибка!
-		printf("Error listen %d\n", WSAGetLastError());
+		printf("ERROR listen %d\n", WSAGetLastError());
+		logToFile(logFile, "ERROR listen", 0);
 		closesocket(mysocket);
+	}
+
+	else {
+		logToFile(logFile, "Listen", 0);
 	}
 
 	strcpy_s(tmp, "Ожидание подключений...\n");
 	AnsiToOem(tmp, tmp);
 	puts(tmp);
-
 	//Извлекаем сообщение из очереди
 	// сокет для клиента
 
@@ -130,8 +149,8 @@ int main(int argc, char* argv[])
 	while ((client_socket = accept(mysocket, (sockaddr *)
 		&client_addr, &client_addr_size)))
 	{
-		// Увеличиваем счетчик
-		// подключившихся клиентов
+
+		logToFile(logFile, "Accept client", 0);
 		numOfClients++;
 
 		// Пытаемся получить имя хоста
@@ -148,16 +167,15 @@ int main(int argc, char* argv[])
 
 		HANDLE hID = (HANDLE)_beginthreadex(NULL, 0, (_beginthreadex_proc_type)&Client, &info, 0, &thID);
 		arrHandle.push_back(hID);
-
 	}
-
+	
 	deinitialize();
-
+	logFile.close();
 	return 0;
 }
 
 void deinitialize() {
-	// Деиницилизация библиотеки Winsock
+	logToFile(logFile, "Deinitialize winsock library", 0);
 	WSACleanup();
 	std::vector<HANDLE>::iterator it;
 	for (it = arrHandle.begin(); it != arrHandle.end(); it++)
@@ -167,6 +185,7 @@ void deinitialize() {
 
 unsigned __stdcall Client(LPVOID info)
 {
+	logToFile(logFile, "Create thread for client", 0);
 	tagINF inf;
 	SOCKET my_sock;
 	sockaddr_in my_addr;
@@ -180,38 +199,58 @@ unsigned __stdcall Client(LPVOID info)
 
 	while ((bytes_recv = recv(my_sock, buff, sizeof(buff), 0))
 		&& bytes_recv != SOCKET_ERROR) {
+		logToFile(logFile, "Recieve message from client", 0);
 		EnterCriticalSection(&critSect);
+		logToFile(logFile, "Enter critical section", 0);
 		buff[bytes_recv] = 0;
 
 		printf("client %d,  recive string: %s\n", my_sock, buff);
 		if (strcmp(buff, request) == 0) {
 			send(my_sock, granted, strlen(granted), 0);
+			logToFile(logFile, "Recieve request from ", my_sock);
 		}
 		else
 		{
+			logToFile(logFile, "Recieve function value from ", my_sock);
 			std::ofstream out("file.txt", std::ios::app);
 			if (out.is_open())
 			{
-				out << my_sock << " " << buff << " ";
-
 				char bufferForTime[80];
 				time_t seconds = time(NULL);
 				tm* timeinfo = localtime(&seconds);
-				char* format = "%H:%M:%S";
+				char* format = "%A, %B %d, %Y %H:%M:%S";
 				strftime(bufferForTime, 80, format, timeinfo);
-				out << bufferForTime << std::endl;
+				out << bufferForTime << " ";
+				out << buff;
+				logToFile(logFile, "Write to file", 0);
 				out.close();
 			}
 			Sleep(1000 * 5);
 			send(my_sock, answer, strlen(answer), 0);
+			logToFile(logFile, "Send answer to ", my_sock);
 		}
 
 		LeaveCriticalSection(&critSect);
+		logToFile(logFile, "Leave critical section", 0);
 	}
-
-
 	closesocket(my_sock);
+	logToFile(logFile, "Close my_sock", 0);
 	ExitThread(0);
 	return 0;
+}
+
+void logToFile(std::ofstream &logFile, char* message, int sock) {
+	char bufferForTime[80];
+	time_t seconds = time(NULL);
+	tm* timeinfo = localtime(&seconds);
+	char* format = "%A, %B %d, %Y %H:%M:%S";
+	strftime(bufferForTime, 80, format, timeinfo);
+	if (sock == 0) {
+		logFile << bufferForTime << " " << message << std::endl;
+	}
+
+	else {
+		logFile << bufferForTime << " " << message << sock << std::endl;
+	}
 }
 

@@ -1,0 +1,4 @@
+Saturday, November 24, 2018 01:12:43 Initialization of winSock library
+Saturday, November 24, 2018 01:12:43 Create socket
+Saturday, November 24, 2018 01:12:43 Bind socket with IP-address and port
+Saturday, November 24, 2018 01:12:43 Listen
