@@ -1,0 +1,36 @@
+Saturday, November 24, 2018 22:15:21 Initialization of winSock library
+Saturday, November 24, 2018 22:15:21 Create socket
+Saturday, November 24, 2018 22:15:21 Valid address
+Saturday, November 24, 2018 22:15:21 Connect
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Resieve answer from server
+Saturday, November 24, 2018 22:15:21 Send request to server
+Saturday, November 24, 2018 22:15:21 Resieve granted from server
+Saturday, November 24, 2018 22:15:21 Send function value to server
+Saturday, November 24, 2018 22:15:21 Recv ERROR

@@ -1,9 +1,14 @@
-Saturday, November 24, 2018 01:15:59 Initialization of winSock library
-Saturday, November 24, 2018 01:15:59 Create socket
-Saturday, November 24, 2018 01:15:59 Valid address
-Saturday, November 24, 2018 01:15:59 Connect
-Saturday, November 24, 2018 01:15:59 Send request to server
-Saturday, November 24, 2018 01:16:01 Resieve granted from server
-Saturday, November 24, 2018 01:16:05 Send function value to server
-Saturday, November 24, 2018 01:16:10 Resieve answer from server
-Saturday, November 24, 2018 01:16:10 Close socket
+Saturday, November 24, 2018 21:39:23 Initialization of winSock library
+Saturday, November 24, 2018 21:39:23 Create socket
+Saturday, November 24, 2018 21:39:23 Valid address
+Saturday, November 24, 2018 21:39:23 Connect
+Saturday, November 24, 2018 21:39:23 Send request to server
+Saturday, November 24, 2018 21:40:51 Resieve granted from server
+Saturday, November 24, 2018 21:40:51 Send function value to server
+Saturday, November 24, 2018 21:41:20 Resieve answer from server
+Saturday, November 24, 2018 21:41:20 Send request to server
+Saturday, November 24, 2018 21:41:34 Resieve granted from server
+Saturday, November 24, 2018 21:41:34 Send function value to server
+Saturday, November 24, 2018 21:41:45 Resieve answer from server
+Saturday, November 24, 2018 21:41:45 Send request to server
+Saturday, November 24, 2018 21:41:54 Recv ERROR

@@ -1,4 +1,31 @@
-Saturday, November 24, 2018 01:12:43 Initialization of winSock library
-Saturday, November 24, 2018 01:12:43 Create socket
-Saturday, November 24, 2018 01:12:43 Bind socket with IP-address and port
-Saturday, November 24, 2018 01:12:43 Listen
+Saturday, November 24, 2018 21:35:37 Initialization of winSock library
+Saturday, November 24, 2018 21:35:37 Create socket
+Saturday, November 24, 2018 21:35:37 Bind socket with IP-address and port
+Saturday, November 24, 2018 21:35:37 Listen
+Saturday, November 24, 2018 21:39:23 Accept client
+Saturday, November 24, 2018 21:39:23 Create thread for client
+Saturday, November 24, 2018 21:39:23 Recieve message from client
+Saturday, November 24, 2018 21:39:23 Enter critical section
+Saturday, November 24, 2018 21:39:47 Recieve request from 196
+Saturday, November 24, 2018 21:40:51 Leave critical section
+Saturday, November 24, 2018 21:40:51 Recieve message from client
+Saturday, November 24, 2018 21:40:51 Enter critical section
+Saturday, November 24, 2018 21:41:08 Recieve function value from 196
+Saturday, November 24, 2018 21:41:17 Write to file
+Saturday, November 24, 2018 21:41:20 Send answer to 196
+Saturday, November 24, 2018 21:41:20 Leave critical section
+Saturday, November 24, 2018 21:41:20 Recieve message from client
+Saturday, November 24, 2018 21:41:20 Enter critical section
+Saturday, November 24, 2018 21:41:27 Recieve request from 196
+Saturday, November 24, 2018 21:41:34 Leave critical section
+Saturday, November 24, 2018 21:41:34 Recieve message from client
+Saturday, November 24, 2018 21:41:34 Enter critical section
+Saturday, November 24, 2018 21:41:38 Recieve function value from 196
+Saturday, November 24, 2018 21:41:41 Write to file
+Saturday, November 24, 2018 21:41:45 Send answer to 196
+Saturday, November 24, 2018 21:41:45 Leave critical section
+Saturday, November 24, 2018 21:41:45 Recieve message from client
+Saturday, November 24, 2018 21:41:45 Enter critical section
+Saturday, November 24, 2018 21:41:48 Recieve request from 196
+Saturday, November 24, 2018 21:41:54 Leave critical section
+Saturday, November 24, 2018 21:41:54 Close my_sock

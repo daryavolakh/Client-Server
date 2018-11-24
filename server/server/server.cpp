@@ -1,4 +1,3 @@
-
 #include <winsock2.h> 
 #include <windows.h>
 #include <winbase.h>
@@ -58,7 +57,7 @@ int main(int argc, char* argv[])
 	char buff[1024];		  // Буфер для различных нужд
 
 	printf("TCP SERVER \n");
-	
+
 
 	// Инициализация Библиотеки Сокетов
 	// Т.к. возвращенная функцией информация
@@ -69,9 +68,9 @@ int main(int argc, char* argv[])
 	{
 		// Ошибка!
 		printf("ERROR WSAStartup %d\n", WSAGetLastError());
-		
+
 		logToFile(logFile, "ERROR WSAStartup", 0);
-		
+
 		return -1;
 	}
 	else {
@@ -81,7 +80,7 @@ int main(int argc, char* argv[])
 	InitializeCriticalSection(&critSect);
 	// Создание сокета
 	SOCKET mysocket;
-	
+
 	// AF_INET     - сокет Интернета
 	// SOCK_STREAM  - потоковый сокет 
 	//(с установкой соединения)
@@ -165,10 +164,10 @@ int main(int argc, char* argv[])
 		info.caddr = &client_addr;
 		info.soc = &client_socket;
 
-		HANDLE hID = (HANDLE)_beginthreadex(NULL, 0, (_beginthreadex_proc_type)&Client, &info, 0, &thID);
+		HANDLE hID = (HANDLE)_beginthreadex(NULL, 0, &Client, &info, 0, &thID);
 		arrHandle.push_back(hID);
 	}
-	
+
 	deinitialize();
 	logFile.close();
 	return 0;
@@ -206,8 +205,8 @@ unsigned __stdcall Client(LPVOID info)
 
 		printf("client %d,  recive string: %s\n", my_sock, buff);
 		if (strcmp(buff, request) == 0) {
-			send(my_sock, granted, strlen(granted), 0);
 			logToFile(logFile, "Recieve request from ", my_sock);
+			send(my_sock, granted, strlen(granted), 0);
 		}
 		else
 		{
@@ -221,15 +220,13 @@ unsigned __stdcall Client(LPVOID info)
 				char* format = "%A, %B %d, %Y %H:%M:%S";
 				strftime(bufferForTime, 80, format, timeinfo);
 				out << bufferForTime << " ";
-				out << buff;
+				out << buff << std:: endl;
 				logToFile(logFile, "Write to file", 0);
 				out.close();
 			}
-			Sleep(1000 * 5);
 			send(my_sock, answer, strlen(answer), 0);
 			logToFile(logFile, "Send answer to ", my_sock);
 		}
-
 		LeaveCriticalSection(&critSect);
 		logToFile(logFile, "Leave critical section", 0);
 	}
@@ -253,4 +250,5 @@ void logToFile(std::ofstream &logFile, char* message, int sock) {
 		logFile << bufferForTime << " " << message << sock << std::endl;
 	}
 }
+
 

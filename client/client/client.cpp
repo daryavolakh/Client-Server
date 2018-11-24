@@ -8,7 +8,7 @@
 #include <ctime>
 #pragma comment(lib, "Ws2_32.lib")
 #pragma warning (disable : 4996)
-using namespace std;	  
+using namespace std;
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
@@ -31,8 +31,16 @@ int __cdecl main(int argc, char** argv)
 
 	printf("TCP CLIENT\n");
 
-	int PORT = atoi(argv[1]);
-	char* serverAddr = argv[2];
+	/*char* serverAddr = argv[1];
+	int PORT = atoi(argv[2]);
+	int begin = atoi(argv[3]);
+	int end = atoi(argv[4]);
+	int step = atoi(argv[5]);*/
+	char* serverAddr = "127.0.0.1";
+	int PORT = 5223;
+	int begin = 10;
+	int end = 17;
+	int step = 1;
 
 	if (WSAStartup(0x202, (WSADATA *)buff))
 	{
@@ -93,39 +101,38 @@ int __cdecl main(int argc, char** argv)
 		logToFile(logFile, "Connect");
 	}
 
+	int x = begin;
 	int nsize;
-
 	send(my_sock, request, strlen(request), 0);
 	logToFile(logFile, "Send request to server");
-
-	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR)
+	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR && x <= end)
 	{
 		buff[nsize] = 0;
 		if (strcmp(buff, granted) == 0) {
 			logToFile(logFile, "Resieve granted from server");
 			printf("%s\n", buff);
-			int x;
-			cout << "Input X: ";
-			cin >> x;
-			double func = function(x);
-			
-			char funcValue[100];
-			sprintf(funcValue, "%f\n", func);
 
-			strcpy_s(buff, funcValue);
-			printf(funcValue);
+			double funcValue = function(x);
+			sprintf(buff, "%f\n", funcValue);
+
 			send(my_sock, buff, strlen(buff), 0);
 			logToFile(logFile, "Send function value to server");
+			x += step;
 		}
 
-		if (strcmp(buff, answer) == 0) {
+		if (strcmp(buff, answer) == 0 && x <= end) {
+			logToFile(logFile, "Resieve answer from server");
+
+			send(my_sock, request, strlen(request), 0);
+			logToFile(logFile, "Send request to server");
+		}
+		if (strcmp(buff, answer) == 0 && x > end) {
 			logToFile(logFile, "Resieve answer from server");
 			closesocket(my_sock);
 			logToFile(logFile, "Close socket");
 			WSACleanup();
 			return 0;
 		}
-
 	}
 
 	printf("Recv error %d\n", WSAGetLastError());
@@ -149,3 +156,4 @@ void logToFile(std::ofstream &logFile, char* message) {
 	strftime(bufferForTime, 80, format, timeinfo);
 	logFile << bufferForTime << " " << message << std::endl;
 }
+
