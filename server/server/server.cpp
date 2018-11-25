@@ -198,9 +198,9 @@ unsigned __stdcall Client(LPVOID info)
 
 	while ((bytes_recv = recv(my_sock, buff, sizeof(buff), 0))
 		&& bytes_recv != SOCKET_ERROR) {
-		logToFile(logFile, "Recieve message from client", 0);
+		logToFile(logFile, "Recieve message from client ", my_sock);
 		EnterCriticalSection(&critSect);
-		logToFile(logFile, "Enter critical section", 0);
+		logToFile(logFile, "ENTER critical section ", my_sock);
 		buff[bytes_recv] = 0;
 
 		printf("client %d,  recive string: %s\n", my_sock, buff);
@@ -221,17 +221,18 @@ unsigned __stdcall Client(LPVOID info)
 				strftime(bufferForTime, 80, format, timeinfo);
 				out << bufferForTime << " ";
 				out << buff << std:: endl;
-				logToFile(logFile, "Write to file", 0);
+				logToFile(logFile, "WRITE to file value from ", my_sock);
 				out.close();
 			}
+			Sleep(1000 * 2);
 			send(my_sock, answer, strlen(answer), 0);
 			logToFile(logFile, "Send answer to ", my_sock);
 		}
 		LeaveCriticalSection(&critSect);
-		logToFile(logFile, "Leave critical section", 0);
+		logToFile(logFile, "LEAVE critical section ", my_sock);
 	}
 	closesocket(my_sock);
-	logToFile(logFile, "Close my_sock", 0);
+	logToFile(logFile, "Close my_sock ", my_sock);
 	ExitThread(0);
 	return 0;
 }

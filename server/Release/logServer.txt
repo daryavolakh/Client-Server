@@ -1,87 +1,140 @@
-Saturday, November 24, 2018 22:14:39 Initialization of winSock library
-Saturday, November 24, 2018 22:14:39 Create socket
-Saturday, November 24, 2018 22:14:39 Bind socket with IP-address and port
-Saturday, November 24, 2018 22:14:39 Listen
-Saturday, November 24, 2018 22:15:21 Accept client
-Saturday, November 24, 2018 22:15:21 Create thread for client
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve request from 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Recieve message from client
-Saturday, November 24, 2018 22:15:21 Enter critical section
-Saturday, November 24, 2018 22:15:21 Recieve function value from 280
-Saturday, November 24, 2018 22:15:21 Write to file
-Saturday, November 24, 2018 22:15:21 Send answer to 280
-Saturday, November 24, 2018 22:15:21 Leave critical section
-Saturday, November 24, 2018 22:15:21 Close my_sock
+Sunday, November 25, 2018 18:48:16 Initialization of winSock library
+Sunday, November 25, 2018 18:48:16 Create socket
+Sunday, November 25, 2018 18:48:16 Bind socket with IP-address and port
+Sunday, November 25, 2018 18:48:16 Listen
+Sunday, November 25, 2018 18:48:26 Accept client
+Sunday, November 25, 2018 18:48:26 Create thread for client
+Sunday, November 25, 2018 18:48:26 Recieve message from client 304
+Sunday, November 25, 2018 18:48:26 ENTER critical section 304
+Sunday, November 25, 2018 18:48:26 Recieve request from 304
+Sunday, November 25, 2018 18:48:26 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:26 Recieve message from client 304
+Sunday, November 25, 2018 18:48:26 ENTER critical section 304
+Sunday, November 25, 2018 18:48:26 Recieve function value from 304
+Sunday, November 25, 2018 18:48:26 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:27 Accept client
+Sunday, November 25, 2018 18:48:27 Create thread for client
+Sunday, November 25, 2018 18:48:27 Recieve message from client 488
+Sunday, November 25, 2018 18:48:28 Send answer to 304
+Sunday, November 25, 2018 18:48:28 ENTER critical section Sunday, November 25, 2018 18:48:28488 
+LEAVE critical section 304
+Sunday, November 25, 2018 18:48:28 Recieve request from 488
+Sunday, November 25, 2018 18:48:28 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:28 Recieve message from client 304
+Sunday, November 25, 2018 18:48:28 ENTER critical section 304
+Sunday, November 25, 2018 18:48:28 Recieve message from client 488
+Sunday, November 25, 2018 18:48:28 Recieve request from 304
+Sunday, November 25, 2018 18:48:28 LEAVE critical section 304Sunday, November 25, 2018 18:48:28 
+ENTER critical section 488
+Sunday, November 25, 2018 18:48:28 Recieve message from client 304
+Sunday, November 25, 2018 18:48:28 Recieve function value from 488
+Sunday, November 25, 2018 18:48:28 WRITE to file value from 488
+Sunday, November 25, 2018 18:48:30 Send answer to 488
+Sunday, November 25, 2018 18:48:30 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:30 Recieve message from client 488Sunday, November 25, 2018 18:48:30
+ ENTER critical section 304
+Sunday, November 25, 2018 18:48:30 Recieve function value from 304
+Sunday, November 25, 2018 18:48:30 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:32 Send answer to 304
+Sunday, November 25, 2018 18:48:32 ENTER critical section 488
+Sunday, November 25, 2018 18:48:32 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:32 Recieve message from client 304
+Sunday, November 25, 2018 18:48:32 Recieve request from 488
+Sunday, November 25, 2018 18:48:32 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:32 ENTER critical section 304
+Sunday, November 25, 2018 18:48:32 Recieve request from 304
+Sunday, November 25, 2018 18:48:32 Recieve message from client 488
+Sunday, November 25, 2018 18:48:32 ENTER critical section 488
+Sunday, November 25, 2018 18:48:32 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:32 Recieve function value from 488
+Sunday, November 25, 2018 18:48:32 WRITE to file value from 488
+Sunday, November 25, 2018 18:48:32 Recieve message from client 304
+Sunday, November 25, 2018 18:48:34 Send answer to 488
+Sunday, November 25, 2018 18:48:34 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:34 ENTER critical section 304
+Sunday, November 25, 2018 18:48:34 Recieve message from client 488
+Sunday, November 25, 2018 18:48:34 Recieve function value from 304
+Sunday, November 25, 2018 18:48:34 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:36 Send answer to 304
+Sunday, November 25, 2018 18:48:36 ENTER critical section 488
+Sunday, November 25, 2018 18:48:36 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:36 Recieve message from client 304
+Sunday, November 25, 2018 18:48:36 Recieve request from 488
+Sunday, November 25, 2018 18:48:36 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:36 ENTER critical section 304
+Sunday, November 25, 2018 18:48:36 Recieve request from 304
+Sunday, November 25, 2018 18:48:36 LEAVE critical section Sunday, November 25, 2018 18:48:36 304Recieve message from client 488
+
+Sunday, November 25, 2018 18:48:36 ENTER critical section 488
+Sunday, November 25, 2018 18:48:36 Recieve function value from 488
+Sunday, November 25, 2018 18:48:36 Recieve message from client 304
+Sunday, November 25, 2018 18:48:36 WRITE to file value from 488
+Sunday, November 25, 2018 18:48:38 Send answer to 488
+Sunday, November 25, 2018 18:48:38 LEAVE critical section 488
+Sunday, November 25, 2018 18:48:38 ENTER critical section 304
+Sunday, November 25, 2018 18:48:38 Close my_sock 488
+Sunday, November 25, 2018 18:48:38 Recieve function value from 304
+Sunday, November 25, 2018 18:48:38 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:40 Send answer to 304
+Sunday, November 25, 2018 18:48:40 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:40 Recieve message from client 304
+Sunday, November 25, 2018 18:48:40 ENTER critical section 304
+Sunday, November 25, 2018 18:48:40 Recieve request from 304
+Sunday, November 25, 2018 18:48:40 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:40 Recieve message from client 304
+Sunday, November 25, 2018 18:48:40 ENTER critical section 304
+Sunday, November 25, 2018 18:48:40 Recieve function value from 304
+Sunday, November 25, 2018 18:48:40 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:42 Send answer to 304
+Sunday, November 25, 2018 18:48:42 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:42 Recieve message from client 304
+Sunday, November 25, 2018 18:48:42 ENTER critical section 304
+Sunday, November 25, 2018 18:48:42 Recieve request from 304
+Sunday, November 25, 2018 18:48:42 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:42 Recieve message from client 304
+Sunday, November 25, 2018 18:48:42 ENTER critical section 304
+Sunday, November 25, 2018 18:48:42 Recieve function value from 304
+Sunday, November 25, 2018 18:48:42 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:44 Send answer to 304
+Sunday, November 25, 2018 18:48:44 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:44 Recieve message from client 304
+Sunday, November 25, 2018 18:48:44 ENTER critical section 304
+Sunday, November 25, 2018 18:48:44 Recieve request from 304
+Sunday, November 25, 2018 18:48:44 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:44 Recieve message from client 304
+Sunday, November 25, 2018 18:48:44 ENTER critical section 304
+Sunday, November 25, 2018 18:48:44 Recieve function value from 304
+Sunday, November 25, 2018 18:48:44 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:46 Send answer to 304
+Sunday, November 25, 2018 18:48:46 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:46 Recieve message from client 304
+Sunday, November 25, 2018 18:48:46 ENTER critical section 304
+Sunday, November 25, 2018 18:48:46 Recieve request from 304
+Sunday, November 25, 2018 18:48:46 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:46 Recieve message from client 304
+Sunday, November 25, 2018 18:48:46 ENTER critical section 304
+Sunday, November 25, 2018 18:48:46 Recieve function value from 304
+Sunday, November 25, 2018 18:48:46 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:48 Send answer to 304
+Sunday, November 25, 2018 18:48:48 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:48 Recieve message from client 304
+Sunday, November 25, 2018 18:48:48 ENTER critical section 304
+Sunday, November 25, 2018 18:48:48 Recieve request from 304
+Sunday, November 25, 2018 18:48:48 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:48 Recieve message from client 304
+Sunday, November 25, 2018 18:48:48 ENTER critical section 304
+Sunday, November 25, 2018 18:48:48 Recieve function value from 304
+Sunday, November 25, 2018 18:48:48 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:50 Send answer to 304
+Sunday, November 25, 2018 18:48:50 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:50 Recieve message from client 304
+Sunday, November 25, 2018 18:48:50 ENTER critical section 304
+Sunday, November 25, 2018 18:48:50 Recieve request from 304
+Sunday, November 25, 2018 18:48:50 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:50 Recieve message from client 304
+Sunday, November 25, 2018 18:48:50 ENTER critical section 304
+Sunday, November 25, 2018 18:48:50 Recieve function value from 304
+Sunday, November 25, 2018 18:48:50 WRITE to file value from 304
+Sunday, November 25, 2018 18:48:52 Send answer to 304
+Sunday, November 25, 2018 18:48:52 LEAVE critical section 304
+Sunday, November 25, 2018 18:48:52 Close my_sock 304

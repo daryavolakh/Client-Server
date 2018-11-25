@@ -105,7 +105,7 @@ int __cdecl main(int argc, char** argv)
 	int nsize;
 	send(my_sock, request, strlen(request), 0);
 	logToFile(logFile, "Send request to server");
-	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR && x <= end)
+	while ((nsize = recv(my_sock, buff, sizeof(buff), 0)) != SOCKET_ERROR)
 	{
 		buff[nsize] = 0;
 		if (strcmp(buff, granted) == 0) {

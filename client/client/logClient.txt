@@ -1,36 +1,37 @@
-Saturday, November 24, 2018 22:15:21 Initialization of winSock library
-Saturday, November 24, 2018 22:15:21 Create socket
-Saturday, November 24, 2018 22:15:21 Valid address
-Saturday, November 24, 2018 22:15:21 Connect
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Resieve answer from server
-Saturday, November 24, 2018 22:15:21 Send request to server
-Saturday, November 24, 2018 22:15:21 Resieve granted from server
-Saturday, November 24, 2018 22:15:21 Send function value to server
-Saturday, November 24, 2018 22:15:21 Recv ERROR
+Sunday, November 25, 2018 22:16:07 Initialization of winSock library
+Sunday, November 25, 2018 22:16:07 Create socket
+Sunday, November 25, 2018 22:16:07 Valid address
+Sunday, November 25, 2018 22:16:07 Connect
+Sunday, November 25, 2018 22:16:07 Send request to server
+Sunday, November 25, 2018 22:16:07 Resieve granted from server
+Sunday, November 25, 2018 22:16:07 Send function value to server
+Sunday, November 25, 2018 22:16:09 Resieve answer from server
+Sunday, November 25, 2018 22:16:09 Send request to server
+Sunday, November 25, 2018 22:16:09 Resieve granted from server
+Sunday, November 25, 2018 22:16:09 Send function value to server
+Sunday, November 25, 2018 22:16:11 Resieve answer from server
+Sunday, November 25, 2018 22:16:11 Send request to server
+Sunday, November 25, 2018 22:16:11 Resieve granted from server
+Sunday, November 25, 2018 22:16:11 Send function value to server
+Sunday, November 25, 2018 22:16:13 Resieve answer from server
+Sunday, November 25, 2018 22:16:13 Send request to server
+Sunday, November 25, 2018 22:16:13 Resieve granted from server
+Sunday, November 25, 2018 22:16:13 Send function value to server
+Sunday, November 25, 2018 22:16:15 Resieve answer from server
+Sunday, November 25, 2018 22:16:15 Send request to server
+Sunday, November 25, 2018 22:16:15 Resieve granted from server
+Sunday, November 25, 2018 22:16:15 Send function value to server
+Sunday, November 25, 2018 22:16:17 Resieve answer from server
+Sunday, November 25, 2018 22:16:17 Send request to server
+Sunday, November 25, 2018 22:16:17 Resieve granted from server
+Sunday, November 25, 2018 22:16:17 Send function value to server
+Sunday, November 25, 2018 22:16:19 Resieve answer from server
+Sunday, November 25, 2018 22:16:19 Send request to server
+Sunday, November 25, 2018 22:16:19 Resieve granted from server
+Sunday, November 25, 2018 22:16:19 Send function value to server
+Sunday, November 25, 2018 22:16:21 Resieve answer from server
+Sunday, November 25, 2018 22:16:21 Send request to server
+Sunday, November 25, 2018 22:16:21 Resieve granted from server
+Sunday, November 25, 2018 22:16:21 Send function value to server
+Sunday, November 25, 2018 22:16:23 Resieve answer from server
+Sunday, November 25, 2018 22:16:23 Close socket
